@@ -10,42 +10,16 @@ import UIKit
 
 class ChecklistViewController: UITableViewController, ItemDetailViewControllerDelegate {
     
-    func itemDetailViewControllerDidCancel(_ controller: ItemDetailViewController) {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    
-    
-    func itemDetailViewController(_ controller: ItemDetailViewController, didFinishAdding item: ChecklistItem) {
-        let newRowIndex = items.count
-        items.append(item)
-        
-        let indexPath = IndexPath(row: newRowIndex, section: 0)
-        let indexPaths = [indexPath]
-        tableView.insertRows(at: indexPaths, with: .automatic)
-        navigationController?.popViewController(animated: true)
-        
-        saveChecklistItems()
-    }
-    
-    func itemDetailViewController(_ controller: ItemDetailViewController, didFinishEditing item: ChecklistItem) {
-        if let index = items.index(of: item) {
-            let indexPath = IndexPath(row: index, section: 0)
-            if let cell = tableView.cellForRow(at: indexPath) {
-                configureText(for: cell, with: item)
-            }
-        }
-        navigationController?.popViewController(animated: true)
-        saveChecklistItems()
-    }
-    
-    
+    var checklist: Checklist!
     var items = [ChecklistItem]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.largeTitleDisplayMode = .never
         loadChecklistItems()
+        
+        title = checklist.name
+        
         print("Documents folder is \(documentsDirectory())")
         print("Data file path is \(dataFilePath())")
         // Do any additional setup after loading the view, typically from a nib.
@@ -121,6 +95,33 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
     func configureText(for cell: UITableViewCell, with item: ChecklistItem) {
         let label = cell.viewWithTag(1000) as! UILabel
         label.text = item.text
+    }
+    
+    func itemDetailViewControllerDidCancel(_ controller: ItemDetailViewController) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func itemDetailViewController(_ controller: ItemDetailViewController, didFinishAdding item: ChecklistItem) {
+        let newRowIndex = items.count
+        items.append(item)
+        
+        let indexPath = IndexPath(row: newRowIndex, section: 0)
+        let indexPaths = [indexPath]
+        tableView.insertRows(at: indexPaths, with: .automatic)
+        navigationController?.popViewController(animated: true)
+        
+        saveChecklistItems()
+    }
+    
+    func itemDetailViewController(_ controller: ItemDetailViewController, didFinishEditing item: ChecklistItem) {
+        if let index = items.index(of: item) {
+            let indexPath = IndexPath(row: index, section: 0)
+            if let cell = tableView.cellForRow(at: indexPath) {
+                configureText(for: cell, with: item)
+            }
+        }
+        navigationController?.popViewController(animated: true)
+        saveChecklistItems()
     }
     
     func documentsDirectory() -> URL {
