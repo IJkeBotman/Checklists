@@ -234,7 +234,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RwN-oh-FGG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="28.985507246376812" y="1012.5000000000001"/>
+            <point key="canvasLocation" x="54" y="994"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
