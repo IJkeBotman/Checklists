@@ -9,11 +9,25 @@
 import UIKit
 
 class AllListsViewController: UITableViewController {
+    
+    var lists = [Checklist]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        var list = Checklist(name: "Birthdays")
+        lists.append(list)
+        
+        list = Checklist(name: "Groceries")
+        lists.append(list)
+        
+        list = Checklist(name: "Cool Apps")
+        lists.append(list)
+        
+        list = Checklist(name: "To Do")
+        lists.append(list)
 
 
        
@@ -26,12 +40,16 @@ class AllListsViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 3
+        return lists.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = makeCell(for: tableView)
-        cell.textLabel!.text = "List \(indexPath.row)"
+        let checklist = lists[indexPath.row]
+        
+        cell.textLabel!.text = checklist.name
+        cell.accessoryType = .detailDisclosureButton
+        
         return cell
     }
     
