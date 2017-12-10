@@ -13,10 +13,10 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Checklists-->
+        <!--Checklist-->
         <scene sceneID="ANm-7d-Qu0">
             <objects>
-                <tableViewController id="tyI-GD-3dJ" customClass="ChecklistViewController" customModule="Checklists" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="tyI-GD-3dJ" userLabel="Checklist" customClass="ChecklistViewController" customModule="Checklists" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="1MP-4C-e3R">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -55,7 +55,7 @@
                             <outlet property="delegate" destination="tyI-GD-3dJ" id="z5k-vw-156"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Checklists" largeTitleDisplayMode="never" id="Vqp-Rv-mLw">
+                    <navigationItem key="navigationItem" title="(Name of the Checklist)" largeTitleDisplayMode="never" id="Vqp-Rv-mLw">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="t27-oR-ri8">
                             <connections>
                                 <segue destination="EkV-5r-5bE" kind="show" identifier="AddItem" id="UEt-lZ-YnS"/>
@@ -139,12 +139,34 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="tyI-GD-3dJ" kind="relationship" relationship="rootViewController" id="Kxz-VA-y18"/>
+                        <segue destination="qLf-WZ-0fO" kind="relationship" relationship="rootViewController" id="dRX-pk-85m"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TNP-oV-v8U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="11" y="249"/>
+            <point key="canvasLocation" x="-686" y="249"/>
+        </scene>
+        <!--All Lists-->
+        <scene sceneID="Bnh-tD-vlH">
+            <objects>
+                <tableViewController id="qLf-WZ-0fO" userLabel="All Lists" customClass="AllListsViewController" customModule="Checklists" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ggf-hB-ewd">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <connections>
+                            <outlet property="dataSource" destination="qLf-WZ-0fO" id="GMP-Ca-Bfr"/>
+                            <outlet property="delegate" destination="qLf-WZ-0fO" id="ZGQ-4D-5nh"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Checklists" id="Ye2-Fq-RCJ"/>
+                    <connections>
+                        <segue destination="tyI-GD-3dJ" kind="show" identifier="ShowChecklist" id="BTF-B7-9ja"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ovk-gu-ipA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="55" y="249"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
