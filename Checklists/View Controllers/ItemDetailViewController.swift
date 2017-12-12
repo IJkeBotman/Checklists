@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 protocol ItemDetailViewControllerDelegate: class {
     func itemDetailViewControllerDidCancel(_ controller: ItemDetailViewController)
@@ -85,8 +86,12 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         
         if indexPath.section == 1 && indexPath.row == 1 {
-            showDatePicker()
-        }
+            if !datePickerVisible {
+               showDatePicker()
+            } else {
+                hideDatePicker()
+            }
+        } 
     }
     
     override func tableView(_ tableView: UITableView, indentationLevelForRowAt indexPath: IndexPath) -> Int {
@@ -95,6 +100,10 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
             newIndexPath = IndexPath(row: 0, section: indexPath.section)
         }
         return super.tableView(tableView, indentationLevelForRowAt: newIndexPath)
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        hideDatePicker()
     }
     
     @IBAction func cancel() {
@@ -107,6 +116,7 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
             item.text = textField.text!
             item.shouldRemind = shouldRemindSwitch.isOn
             item.dueDate = dueDate
+            item.scheduleNotification()
             delegate?.itemDetailViewController(self, didFinishEditing: item)
         } else {
             let item = ChecklistItem()
@@ -114,7 +124,7 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
             item.checked = false
             item.shouldRemind = shouldRemindSwitch.isOn
             item.dueDate = dueDate
-            
+            item.scheduleNotification()
             delegate?.itemDetailViewController(self, didFinishAdding: item)
         }
         
@@ -123,6 +133,18 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     @IBAction func dateChanged(_ datePicker: UIDatePicker) {
         dueDate = datePicker.date
         updateDueDateLabel()
+    }
+    
+    @IBAction func shouldRemindToggled(_ switchControl: UISwitch) {
+        textField.resignFirstResponder()
+        
+        if switchControl.isOn {
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.alert, .sound]) {
+                granted, error in
+                //Do nothing
+            }
+        }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -144,8 +166,36 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     func showDatePicker() {
         datePickerVisible = true
         
+        let indexPathDateRow = IndexPath(row: 1, section: 1)
         let indexPathDatePicker = IndexPath(row: 2, section: 1)
+        
+        if let dateCell = tableView.cellForRow(at: indexPathDateRow) {
+            dateCell.detailTextLabel!.textColor = dateCell.detailTextLabel!.tintColor
+        }
+        
+        tableView.beginUpdates()
         tableView.insertRows(at: [indexPathDatePicker], with: .fade)
+        tableView.reloadRows(at: [indexPathDateRow], with: .none)
+        tableView.endUpdates()
+        
         datePicker.setDate(dueDate, animated: false)
+    }
+    
+    func hideDatePicker() {
+        if datePickerVisible {
+            datePickerVisible = false
+            
+            let indexPathDateRow = IndexPath(row: 1, section: 1)
+            let indexPathDatePicker = IndexPath(row: 2, section: 1)
+            
+            if let cell = tableView.cellForRow(at: indexPathDateRow) {
+                cell.detailTextLabel!.textColor = UIColor.black
+            }
+            
+            tableView.beginUpdates()
+            tableView.reloadRows(at: [indexPathDateRow], with: .none)
+            tableView.deleteRows(at: [indexPathDatePicker], with: .fade)
+            tableView.endUpdates()
+        }
     }
 }
