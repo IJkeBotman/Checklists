@@ -16,6 +16,7 @@ class ChecklistItem: NSObject, Codable {
     var shouldRemind = false
     var itemID: Int
     
+    //Set itemID
     override init() {
         itemID = DataModel.nextChecklistItemID()
         super.init()
@@ -25,6 +26,7 @@ class ChecklistItem: NSObject, Codable {
         checked = !checked
     }
     
+    //Schedules notifications by removing existing notification and setting a new one.
     func scheduleNotification() {
         removeNotification()
         if shouldRemind && dueDate > Date() {
@@ -47,11 +49,13 @@ class ChecklistItem: NSObject, Codable {
         }
     }
     
+    //Remove notification with itemID
     func removeNotification() {
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: ["\(itemID)"])
     }
     
+    //Remove notification if ChecklistItem is deleted
     deinit {
         removeNotification()
     }

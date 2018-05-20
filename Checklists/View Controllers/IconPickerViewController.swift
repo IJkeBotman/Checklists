@@ -8,6 +8,7 @@
 
 import UIKit
 
+//Protocol functions
 protocol IconPickerViewControllerDelegate: class {
     func iconPicker(_ picker: IconPickerViewController, didPick iconName: String)
 }
@@ -29,6 +30,7 @@ class IconPickerViewController: UITableViewController {
         return cell
     }
     
+    //Call delegate function if row is tapped.
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let delegate = delegate {
             let icon = icons[indexPath.row]

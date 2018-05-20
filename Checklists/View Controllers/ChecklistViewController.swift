@@ -17,16 +17,13 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         navigationItem.largeTitleDisplayMode = .never
         
         title = checklist.name
-        
-        
-        // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
+    //Segue to Add or Edit checklists
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddItem" {
             let controller = segue.destination as! ItemDetailViewController
@@ -57,6 +54,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         return cell
     }
     
+    //Toggle Checkmark
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if let cell = tableView.cellForRow(at: indexPath) {
@@ -97,6 +95,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         navigationController?.popViewController(animated: true)
     }
     
+    //ItemDetailViewControllerDelegate, add new checklist item to the checklist
     func itemDetailViewController(_ controller: ItemDetailViewController, didFinishAdding item: ChecklistItem) {
         let newRowIndex = checklist.items.count
         checklist.items.append(item)
@@ -108,6 +107,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         
     }
     
+    //ItemDetailViewControllerDelegate, edit checklist item
     func itemDetailViewController(_ controller: ItemDetailViewController, didFinishEditing item: ChecklistItem) {
         if let index = checklist.items.index(of: item) {
             let indexPath = IndexPath(row: index, section: 0)

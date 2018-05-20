@@ -9,6 +9,7 @@
 import UIKit
 import UserNotifications
 
+//Protocol functions for delegate
 protocol ItemDetailViewControllerDelegate: class {
     func itemDetailViewControllerDidCancel(_ controller: ItemDetailViewController)
     func itemDetailViewController(_ controller: ItemDetailViewController, didFinishAdding item: ChecklistItem)
@@ -33,6 +34,7 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //If there's an item in itemToEdit, set up the screen for edit mode
         if let item = itemToEdit {
             title = "Edit Item"
             textField.text = item.text
@@ -57,6 +59,7 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
+    //Show datePickerCell
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 1 && indexPath.row == 2 {
             return datePickerCell
@@ -81,6 +84,7 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
+    //Toggle datePicker
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         textField.resignFirstResponder()
@@ -102,6 +106,7 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         return super.tableView(tableView, indentationLevelForRowAt: newIndexPath)
     }
     
+    //Hide datePicker when editing textfield
     func textFieldDidBeginEditing(_ textField: UITextField) {
         hideDatePicker()
     }
@@ -110,8 +115,8 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         delegate?.itemDetailViewControllerDidCancel(self)
     }
     
+    //Handle done button, call delegate functions for editing or new checklist
     @IBAction func done() {
-        
         if let item = itemToEdit {
             item.text = textField.text!
             item.shouldRemind = shouldRemindSwitch.isOn
@@ -130,6 +135,7 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         
     }
     
+    
     @IBAction func dateChanged(_ datePicker: UIDatePicker) {
         dueDate = datePicker.date
         updateDueDateLabel()
@@ -147,6 +153,7 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
+    //Enable done barButton if there's text in the textField.
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let oldText = textField.text!
         let stringRange = Range(range, in: oldText)!

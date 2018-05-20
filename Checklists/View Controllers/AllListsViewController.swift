@@ -45,6 +45,7 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         return dataModel.lists.count
     }
     
+    //Build cell, show info about the list: how many items, if they're completed, how many items remaining.
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = makeCell(for: tableView)
         let checklist = dataModel.lists[indexPath.row]
@@ -87,6 +88,7 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         tableView.deleteRows(at: indexPaths, with: .automatic)
     }
     
+    //Edit a list
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         let controller = storyboard!.instantiateViewController(withIdentifier: "ListDetailViewController") as! ListDetailViewController
         controller.delegate = self
